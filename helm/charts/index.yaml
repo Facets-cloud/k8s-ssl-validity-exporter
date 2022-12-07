@@ -1,0 +1,14 @@
+apiVersion: v1
+entries:
+  ssl-expiry-prometheus-operator:
+  - apiVersion: v2
+    appVersion: 1.16.0
+    created: "2022-12-07T19:59:02.702802+05:30"
+    description: A Helm chart for Kubernetes
+    digest: ac75f0301043a95be919cc71d377891b2f7f93265f114d34a207288dbccc4547
+    name: ssl-expiry-prometheus-operator
+    type: application
+    urls:
+    - ssl-expiry-prometheus-operator-0.1.0.tgz
+    version: 0.1.0
+generated: "2022-12-07T19:59:02.701942+05:30"
