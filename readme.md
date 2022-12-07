@@ -1,4 +1,4 @@
-# ssl-checker
+# ssl-expiry-prometheus-operator
 
 Prometheus Exporter that checks the SSL certificates of all ingress hosts within all namespaces.
 
