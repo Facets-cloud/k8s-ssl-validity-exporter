@@ -5,8 +5,8 @@
 replicaCount: 1
 
 image:
-  repository: ishaanfacets/ssl_checker
-  pullPolicy: Always
+  repository: facetscloud/ssl-expiry-prometheus-operator
+  pullPolicy: IfNotPresent
   # Overrides the image tag whose default is the chart appVersion.
   tag: "latest"
 
