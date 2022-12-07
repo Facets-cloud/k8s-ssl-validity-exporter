@@ -1,0 +1,14 @@
+apiVersion: v1
+entries:
+  ssl-checker:
+  - apiVersion: v2
+    appVersion: 1.16.0
+    created: "2022-12-07T19:47:46.579415+05:30"
+    description: A Helm chart for Kubernetes
+    digest: 011df45fc98860fc5d92f62965f89ff8161ce6744b1f691185ce9b85372c69e8
+    name: ssl-checker
+    type: application
+    urls:
+    - ssl-checker-0.1.0.tgz
+    version: 0.1.0
+generated: "2022-12-07T19:47:46.578583+05:30"
