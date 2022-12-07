@@ -1,0 +1,17 @@
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: {{ include "ssl_checker.fullname" . }}
+  namespace: {{ .Release.Namespace }}
+  labels:
+     {{- include "ssl_checker.labels" . | nindent 4 }}
+spec:
+  selector:
+    matchLabels:
+      {{- include "ssl_checker.selectorLabels" . | nindent 5 }}
+  endpoints:
+  - targetPort: metrics
+    port: metrics
+    path: /metrics
+    scrapeTimeout: 60s
+    interval: 120s
