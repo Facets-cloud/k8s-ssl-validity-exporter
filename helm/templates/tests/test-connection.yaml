@@ -1,9 +1,9 @@
 apiVersion: v1
 kind: Pod
 metadata:
-  name: "{{ include "ssl_checker.fullname" . }}-test-connection"
+  name: "{{ include "ssl-expiry-prometheus-operator.fullname" . }}-test-connection"
   labels:
-    {{- include "ssl_checker.labels" . | nindent 4 }}
+    {{- include "ssl-expiry-prometheus-operator.labels" . | nindent 4 }}
   annotations:
     "helm.sh/hook": test
 spec:
@@ -11,5 +11,5 @@ spec:
     - name: wget
       image: busybox
       command: ['wget']
-      args: ['{{ include "ssl_checker.fullname" . }}:{{ .Values.service.port }}/metrics']
+      args: ['{{ include "ssl-expiry-prometheus-operator.fullname" . }}:{{ .Values.service.port }}/metrics']
   restartPolicy: Never
