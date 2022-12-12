@@ -2,7 +2,6 @@ package main
 
 import (
 	"context"
-	"os"
 	"crypto/tls"
 	"fmt"
 	"log"
@@ -20,7 +19,7 @@ import (
 
 func main() {
 
-	kubeConfig := flag.String("kubeconfig",os.Getenv("HOME"),"Kubeconfig path")
+	kubeConfig := flag.String("kubeconfig","","Kubeconfig path")
 	port := flag.String("port","8080","Port on which the server is listening, defaults to 8080")
 	flag.Parse()
 
