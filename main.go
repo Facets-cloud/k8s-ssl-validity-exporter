@@ -2,24 +2,30 @@ package main
 
 import (
 	"context"
+	"os"
 	"crypto/tls"
 	"fmt"
 	"log"
 	"math"
+	"flag"
 	"net/http"
 	"time"
 	"github.com/prometheus/client_golang/prometheus"
 	"github.com/prometheus/client_golang/prometheus/promhttp"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/client-go/kubernetes"
-	// "k8s.io/client-go/tools/clientcmd"
+	"k8s.io/client-go/tools/clientcmd"
 	"k8s.io/client-go/rest"
 )
 
 func main() {
 
+	kubeConfig := flag.String("kubeconfig",os.Getenv("HOME"),"Kubeconfig path")
+	port := flag.String("port","8080","Port on which the server is listening, defaults to 8080")
+	flag.Parse()
+
 	// Generating kubeclient
-	clientset, err := kubeClient()
+	clientset, err := kubeClient(kubeConfig)
 	if err != nil {
 		fmt.Println("Unable to create kubeclient")
 		panic(err.Error())
@@ -31,31 +37,37 @@ func main() {
 
 	//Prometheus Http handler
 	log.Print("Starting Metrics Server...")
+	log.Printf("Listening on port %s",*port)
 	http.Handle("/metrics", promhttp.Handler())
-	log.Fatal(http.ListenAndServe(":8080", nil))
+	log.Fatal(http.ListenAndServe(":"+ *port, nil))
 }
 
-func kubeClient() (*kubernetes.Clientset, error) {
+func kubeClient(kubeConfig *string) (*kubernetes.Clientset, error) {
 
-	config, err := rest.InClusterConfig()
-	if err != nil {
-		panic(err.Error())
-	}
-	log.Print("Built in cluster configuration...")
 
-	// use the current context in kubeconfig
-	// config, err := clientcmd.BuildConfigFromFlags("", "/Users/ishaankalra/Downloads/aws-infra-dev-kubeconfig")
-	// if err != nil {
-	// 	fmt.Println("Config Error")
-	// 	return nil, err
-	// }
-	// log.Print("Built config from Flags...")
-	clientset, err := kubernetes.NewForConfig(config)
-	if err != nil {
-		fmt.Println("clientset error")
-		return nil, err
+	if flag.CommandLine.Lookup("kubeConfig") == nil {
+		config, err := rest.InClusterConfig()
+		clientset, err := kubernetes.NewForConfig(config)
+		if err != nil {
+			fmt.Println("clientset error")
+			return nil, err
+		}
+		fmt.Print("Bulit Config from Service Account")
+		return clientset, nil
+	}else {
+		config, err := clientcmd.BuildConfigFromFlags("", *kubeConfig)
+		if err != nil {
+			fmt.Println("Config Error")
+			return nil, err
+		}
+		clientset, err := kubernetes.NewForConfig(config)
+		if err != nil {
+			fmt.Println("clientset error")
+			return nil, err
+		}
+		log.Print("Built config from kubeconfig flag...")
+		return clientset, nil
 	}
-	return clientset, nil
 }
 
 func namespacesList(client *kubernetes.Clientset) ([]string, error) {
@@ -89,8 +101,8 @@ func ingressDomainsList(client *kubernetes.Clientset, namespaces []string) ([]ma
 }
 
 // Prometheus Metrics
-var ssl_checker = prometheus.NewDesc(
-	prometheus.BuildFQName("", "", "ssl_checker"),
+var ssl_expiry = prometheus.NewDesc(
+	prometheus.BuildFQName("", "", "ssl_expiry"),
 	"Checking SSL Expiration Dates of all ingress hosts",
 	[]string{"domain", "ingress"},
 	nil,
@@ -107,7 +119,7 @@ func NewExporter(clientset *kubernetes.Clientset) *Exporter {
 }
 
 func (e *Exporter) Describe(ch chan<- *prometheus.Desc) {
-	ch <- ssl_checker
+	ch <- ssl_expiry
 }
 
 func (e *Exporter) Collect(ch chan<- prometheus.Metric) {
@@ -133,7 +145,7 @@ func (e *Exporter) Collect(ch chan<- prometheus.Metric) {
 		})
 		if err != nil {
 			log.Printf(err.Error()+" domain: %s", m["domain"])
-			ch <- prometheus.MustNewConstMetric(ssl_checker, prometheus.GaugeValue, -1, m["domain"], m["ingress"])
+			ch <- prometheus.MustNewConstMetric(ssl_expiry, prometheus.GaugeValue, -1, m["domain"], m["ingress"])
 		} else {
 			for _,k := range conn.ConnectionState().PeerCertificates {
 				if k.DNSNames != nil{
@@ -141,7 +153,7 @@ func (e *Exporter) Collect(ch chan<- prometheus.Metric) {
 					date := time.Now()
 					diff := expiry.Sub(date)
 					valInDays := math.Round(diff.Hours() / 24)
-					ch <- prometheus.MustNewConstMetric(ssl_checker, prometheus.GaugeValue, valInDays, m["domain"], m["ingress"])
+					ch <- prometheus.MustNewConstMetric(ssl_expiry, prometheus.GaugeValue, valInDays, m["domain"], m["ingress"])
 				}
 			}
 			defer conn.Close()
