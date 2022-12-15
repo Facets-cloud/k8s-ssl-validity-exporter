@@ -3,13 +3,13 @@ entries:
   ssl-expiry-prometheus-operator:
   - apiVersion: v2
     appVersion: 1.16.0
-    created: "2022-12-08T06:29:18.456445+05:30"
+    created: "2022-12-15T17:41:29.0444+05:30"
     description: Prometheus Exporter that checks the SSL certificates of all ingress
       hosts within all namespaces.
-    digest: b3da387f772eb259d8c99eb87aefe49f548601adf820db3ed8d74a0b26f22a4c
+    digest: 6d4cf2f6fb4673c1cde1ecb650e8b37589e41ca125bb9f2ff688c81a555ca439
     name: ssl-expiry-prometheus-operator
     type: application
     urls:
     - ssl-expiry-prometheus-operator-1.0.0.tgz
     version: 1.0.0
-generated: "2022-12-08T06:29:18.455177+05:30"
+generated: "2022-12-15T17:41:29.043513+05:30"
