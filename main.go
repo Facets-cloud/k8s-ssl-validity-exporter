@@ -42,9 +42,7 @@ func main() {
 }
 
 func kubeClient(kubeConfig *string) (*kubernetes.Clientset, error) {
-
-
-	if flag.CommandLine.Lookup("kubeConfig") == nil {
+	if flag.CommandLine.Lookup("kubeconfig") == nil {
 		config, err := rest.InClusterConfig()
 		clientset, err := kubernetes.NewForConfig(config)
 		if err != nil {
@@ -137,7 +135,6 @@ func (e *Exporter) Collect(ch chan<- prometheus.Metric) {
 		panic(err.Error())
 	}
 
-
 	for _, m := range ingressDomainMap {
 		conn, err := tls.Dial("tcp", m["domain"]+":443", &tls.Config{
 			InsecureSkipVerify: true,
@@ -146,15 +143,21 @@ func (e *Exporter) Collect(ch chan<- prometheus.Metric) {
 			log.Printf(err.Error()+" domain: %s", m["domain"])
 			ch <- prometheus.MustNewConstMetric(ssl_expiry, prometheus.GaugeValue, -1, m["domain"], m["ingress"])
 		} else {
-			for _,k := range conn.ConnectionState().PeerCertificates {
-				if k.DNSNames != nil{
-					expiry := k.NotAfter
-					date := time.Now()
-					diff := expiry.Sub(date)
-					valInDays := math.Round(diff.Hours() / 24)
-					ch <- prometheus.MustNewConstMetric(ssl_expiry, prometheus.GaugeValue, valInDays, m["domain"], m["ingress"])
-				}
-			}
+			expiry := conn.ConnectionState().PeerCertificates[0].NotAfter
+			date := time.Now()
+			diff:= expiry.Sub(date)
+			valInDays := math.Round(diff.Hours() / 24)
+			ch <- prometheus.MustNewConstMetric(ssl_expiry, prometheus.GaugeValue, valInDays, m["domain"], m["ingress"])
+			// for _,k := range conn.ConnectionState().PeerCertificates {
+			// 	if k.DNSNames!= nil {
+			// 		fmt.Printf("%s %s \n",k.Issuer.CommonName,m["domain"])
+			// 		expiry := k.NotAfter
+			// 		date := time.Now()
+			// 		diff := expiry.Sub(date)
+			// 		valInDays := math.Round(diff.Hours() / 24)
+			// 		ch <- prometheus.MustNewConstMetric(ssl_expiry, prometheus.GaugeValue, valInDays, m["domain"], m["ingress"])
+			// 	}
+			// }
 			defer conn.Close()
 		}
 	}
