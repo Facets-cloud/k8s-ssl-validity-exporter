@@ -1,27 +1,26 @@
-# ssl-expiry-prometheus-operator
+# k8s-ingress-ssl-metrics-exporter
 
-Prometheus Exporter that checks the SSL certificates of all ingress hosts within all namespaces.
+Prometheus Exporter that checks the SSL certificates of all ingress hosts within all namespaces and returns expiration days with respect to current date as the gauge value.
 
 # Metrics Overview
 
-1. `ssl-expiry-prometheus-operator` calculates the number of days left with respect to the present date for the domain SSL certificate to expire, and exports the same as gauge value of the metric along with other labels:
+`ssl_expiry` calculates the number of days left with respect to the present date for the domain SSL certificate to expire, and exports the same as gauge value of the metric along with other labels:
 
 ```
-ssl-expiry-prometheus-operator{domain="ssl-checker.com",ingress="default"}
+ssl_expiry{common_name="commonName", domain="ssl-checker.com",ingress="default"}
 ```
-2. If the exporter is unable to resolve the domain or if could not get any SSL certificate from the resquested domain, it will return gauge value as `-1`
 
 # Add Helm Chart Repository
 
 ```
-helm repo add ssl-expiry-prometheus-operator https://facets-cloud.github.io/ssl-expiry-prometheus-operator/helm/charts
+helm repo add k8s-ingress-ssl-metrics-exporter https://facets-cloud.github.io/k8s-ingress-ssl-metrics-exporter/helm/charts
 helm repo update
 ```
 
 # Install Chart
 
 ```
-helm install [RELEASE_NAME] ssl-expiry-prometheus-operator/ssl-expiry-prometheus-operator
+helm install [RELEASE_NAME] k8s-ingress-ssl-metrics-exporter/k8s-ingress-ssl-metrics-exporter
 ```
 
 # Uninstall Chart
