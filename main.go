@@ -27,7 +27,7 @@ var certificates []map[string]string
 var ssl_expiry = prometheus.NewDesc(
 	prometheus.BuildFQName("", "", "ssl_expiry"),
 	"Checking SSL Expiration Dates of all ingress hosts",
-	[]string{"domain", "ingress", "commonName", "namespace"},
+	[]string{"domain", "ingress", "common_name", "namespace"},
 	nil,
 )
 
