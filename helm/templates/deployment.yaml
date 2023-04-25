@@ -1,15 +1,15 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ include "ssl-expiry-prometheus-operator.fullname" . }}
+  name: {{ include "k8s-ingress-ssl-metrics-exporter.fullname" . }}
   namespace: {{ .Release.Namespace }}
   labels:
-    {{- include "ssl-expiry-prometheus-operator.labels" . | nindent 4 }}
+    {{- include "k8s-ingress-ssl-metrics-exporter.labels" . | nindent 4 }}
 spec:
   replicas: {{ .Values.replicaCount }}
   selector:
     matchLabels:
-      {{- include "ssl-expiry-prometheus-operator.selectorLabels" . | nindent 6 }}
+      {{- include "k8s-ingress-ssl-metrics-exporter.selectorLabels" . | nindent 6 }}
   template:
     metadata:
       {{- with .Values.podAnnotations }}
@@ -17,13 +17,13 @@ spec:
         {{- toYaml . | nindent 8 }}
       {{- end }}
       labels:
-        {{- include "ssl-expiry-prometheus-operator.selectorLabels" . | nindent 8 }}
+        {{- include "k8s-ingress-ssl-metrics-exporter.selectorLabels" . | nindent 8 }}
     spec:
       {{- with .Values.imagePullSecrets }}
       imagePullSecrets:
         {{- toYaml . | nindent 8 }}
       {{- end }}
-      serviceAccountName: {{ include "ssl-expiry-prometheus-operator.fullname" . }}
+      serviceAccountName: {{ include "k8s-ingress-ssl-metrics-exporter.fullname" . }}
       securityContext:
         {{- toYaml .Values.podSecurityContext | nindent 8 }}
       containers:

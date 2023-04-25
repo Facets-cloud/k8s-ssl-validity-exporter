@@ -2,7 +2,7 @@ apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRole
 metadata:
   namespace: {{ .Release.Namespace }}
-  name: {{ include "ssl-expiry-prometheus-operator.fullname" . }}
+  name: {{ include "k8s-ingress-ssl-metrics-exporter.fullname" . }}
 rules:
 - apiGroups: [""]
   resources: ["namespaces"]

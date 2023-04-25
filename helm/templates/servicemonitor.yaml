@@ -1,14 +1,14 @@
 apiVersion: monitoring.coreos.com/v1
 kind: ServiceMonitor
 metadata:
-  name: {{ include "ssl-expiry-prometheus-operator.fullname" . }}
+  name: {{ include "k8s-ingress-ssl-metrics-exporter.fullname" . }}
   namespace: {{ .Release.Namespace }}
   labels:
-     {{- include "ssl-expiry-prometheus-operator.labels" . | nindent 4 }}
+     {{- include "k8s-ingress-ssl-metrics-exporter.labels" . | nindent 4 }}
 spec:
   selector:
     matchLabels:
-      {{- include "ssl-expiry-prometheus-operator.selectorLabels" . | nindent 5 }}
+      {{- include "k8s-ingress-ssl-metrics-exporter.selectorLabels" . | nindent 5 }}
   endpoints:
   - targetPort: metrics
     port: metrics
