@@ -7,7 +7,7 @@ Prometheus Exporter that checks the SSL certificates of all ingress hosts within
 `ssl_expiry` calculates the number of days left with respect to the present date for the domain SSL certificate to expire, and exports the same as gauge value of the metric along with other labels:
 
 ```
-ssl_expiry{common_name="commonName", domain="ssl-checker.com",ingress="default"}
+ssl_expiry{common_name="commonName",domain="ssl-checker.com",ingress="default",namespace="default"} 57
 ```
 
 # Add Helm Chart Repository
