@@ -1,5 +1,5 @@
 apiVersion: v2
-name: k8s-ingress-ssl-metrics-exporter
+name: k8s-ssl-validity-exporter
 description: Prometheus Exporter that checks the SSL certificates of all ingress hosts within all namespaces.
 
 # A chart can be either an 'application' or a 'library' chart.

@@ -1,10 +1,10 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: {{ include "k8s-ingress-ssl-metrics-exporter.fullname" . }}
+  name: {{ include "k8s-ssl-validity-exporter.fullname" . }}
   namespace: {{ .Release.Namespace }}
   labels:
-    {{- include "k8s-ingress-ssl-metrics-exporter.labels" . | nindent 4 }}
+    {{- include "k8s-ssl-validity-exporter.labels" . | nindent 4 }}
 spec:
   type: {{ .Values.service.type }}
   ports:
@@ -13,4 +13,4 @@ spec:
       protocol: TCP
       name: metrics
   selector:
-      {{- include "k8s-ingress-ssl-metrics-exporter.selectorLabels" . | nindent 4 }}
+      {{- include "k8s-ssl-validity-exporter.selectorLabels" . | nindent 4 }}

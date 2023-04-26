@@ -1,4 +1,4 @@
-# k8s-ingress-ssl-metrics-exporter
+# K8s SSL Validity Exporter
 
 Prometheus Exporter that checks the SSL certificates of all ingress hosts within all namespaces and returns expiration days with respect to current date as the gauge value.
 

@@ -1,13 +1,13 @@
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRoleBinding
 metadata:
-  name: {{ include "k8s-ingress-ssl-metrics-exporter.fullname" . }}
+  name: {{ include "k8s-ssl-validity-exporter.fullname" . }}
   namespace: {{ .Release.Namespace }}
 subjects:
 - kind: ServiceAccount
-  name: {{ include "k8s-ingress-ssl-metrics-exporter.fullname" . }}
+  name: {{ include "k8s-ssl-validity-exporter.fullname" . }}
   namespace: {{ .Release.Namespace }}
 roleRef:
   kind: ClusterRole
-  name: {{ include "k8s-ingress-ssl-metrics-exporter.fullname" . }}
+  name: {{ include "k8s-ssl-validity-exporter.fullname" . }}
   apiGroup: rbac.authorization.k8s.io

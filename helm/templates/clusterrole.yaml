@@ -2,7 +2,7 @@ apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRole
 metadata:
   namespace: {{ .Release.Namespace }}
-  name: {{ include "k8s-ingress-ssl-metrics-exporter.fullname" . }}
+  name: {{ include "k8s-ssl-validity-exporter.fullname" . }}
 rules:
 - apiGroups: [""]
   resources: ["namespaces"]

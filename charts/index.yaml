@@ -1,15 +1,15 @@
 apiVersion: v1
 entries:
-  k8s-ingress-ssl-metrics-exporter:
+  k8s-ssl-validity-exporter:
   - apiVersion: v2
     appVersion: 1.16.0
-    created: "2023-04-25T11:04:49.199519+05:30"
+    created: "2023-04-26T22:17:09.037216+05:30"
     description: Prometheus Exporter that checks the SSL certificates of all ingress
       hosts within all namespaces.
-    digest: 81e5f218871555b9586b415aa2c59dda95ede647f253ae5d38edeb7a01bca316
-    name: k8s-ingress-ssl-metrics-exporter
+    digest: 48d6b96b36416c04893740786a7b2ae44cc14e0d4843c5b05f5864e24e182642
+    name: k8s-ssl-validity-exporter
     type: application
     urls:
-    - k8s-ingress-ssl-metrics-exporter-1.0.0.tgz
+    - k8s-ssl-validity-exporter-1.0.0.tgz
     version: 1.0.0
-generated: "2023-04-25T11:04:49.199061+05:30"
+generated: "2023-04-26T22:17:09.033658+05:30"

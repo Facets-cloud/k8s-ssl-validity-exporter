@@ -1,9 +1,9 @@
 apiVersion: v1
 kind: Pod
 metadata:
-  name: "{{ include "k8s-ingress-ssl-metrics-exporter.fullname" . }}-test-connection"
+  name: "{{ include "k8s-ssl-validity-exporter.fullname" . }}-test-connection"
   labels:
-    {{- include "k8s-ingress-ssl-metrics-exporter.labels" . | nindent 4 }}
+    {{- include "k8s-ssl-validity-exporter.labels" . | nindent 4 }}
   annotations:
     "helm.sh/hook": test
 spec:
@@ -11,5 +11,5 @@ spec:
     - name: wget
       image: busybox
       command: ['wget']
-      args: ['{{ include "k8s-ingress-ssl-metrics-exporter.fullname" . }}:{{ .Values.service.port }}/metrics']
+      args: ['{{ include "k8s-ssl-validity-exporter.fullname" . }}:{{ .Values.service.port }}/metrics']
   restartPolicy: Never
