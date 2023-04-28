@@ -1,6 +1,6 @@
 # K8s SSL Validity Exporter
 
-A exporter that scans for Kubernetes ingress objects to determine the unique set of domains to monitor. It then initiates a TLS connection and retrieves the certificate chain for each domain. For each certificate in the chain, the exporter publishes a gauge metric called ssl_expiry, with the number of days until expiry as the gauge value, and relevant labels.
+An exporter that scans for Kubernetes ingress objects to determine the unique set of domains to monitor. It then initiates a TLS connection and retrieves the certificate chain for each domain. For each certificate in the chain, the exporter publishes a gauge metric called ssl_expiry, with the number of days until expiry as the gauge value, and relevant labels.
 
 # Metrics Overview
 
