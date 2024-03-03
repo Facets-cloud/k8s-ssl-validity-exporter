@@ -234,12 +234,8 @@ func (e *Exporter) Collect(ch chan<- prometheus.Metric) {
 	}
 	wg.Wait()
 
-	fmt.Printf("Length of certifcates %d\n",len(certificates))
-
 	// Filter out any duplicate certificates
 	filteredCertificates := filterDuplicateCertificates(certificates)
-
-	fmt.Printf("Length of filtered certifcates %d",len(filteredCertificates))
 
 	// Send the SSL expiry metric to the given channel for each SSL certificate
 	for _, metrics := range filteredCertificates {
