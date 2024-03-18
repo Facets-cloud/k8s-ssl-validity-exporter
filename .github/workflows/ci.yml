@@ -27,9 +27,6 @@ jobs:
           file: ./build/Dockerfile
           platforms: linux/amd64,linux/arm64
           push: true
-          tags: facetscloud/k8s-ingress-ssl-metrics-exporter-test:${{ github.run_number }}
-
-#      - name: Tag and push latest
-#        run: |
-#          docker tag facetscloud/k8s-ingress-ssl-metrics-exporter:${{ github.run_number }} facetscloud/k8s-ingress-ssl-metrics-exporter:latest
-#          docker push facetscloud/k8s-ingress-ssl-metrics-exporter:latest
+          tags: |
+            facetscloud/k8s-ingress-ssl-metrics-exporter-test:${{ github.run_number }}
+            facetscloud/k8s-ingress-ssl-metrics-exporter-test:latest
