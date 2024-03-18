@@ -28,5 +28,5 @@ jobs:
           platforms: linux/amd64,linux/arm64
           push: true
           tags: |
-            facetscloud/k8s-ingress-ssl-metrics-exporter-test:test
+            facetscloud/k8s-ingress-ssl-metrics-exporter:test
 #            facetscloud/k8s-ingress-ssl-metrics-exporter-test:latest
