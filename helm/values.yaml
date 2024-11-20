@@ -5,7 +5,7 @@
 replicaCount: 1
 
 image:
-  repository: facetscloud/k8s-ingress-ssl-metrics-exporter
+  repository: facetscloud/k8s-ingress-ssl-metrics-exporter-multi-arch
   pullPolicy: Always
   # Overrides the image tag whose default is the chart appVersion.
   tag: "latest"
